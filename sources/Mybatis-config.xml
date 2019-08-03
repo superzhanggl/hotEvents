@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 设置Mybatis的运行行为方式-->
+	<settings>
+		<setting name="logImpl" value="LOG4J"/>
+	</settings>
+	
+	<!-- 设置别名 -->
+	<typeAliases>
+		<package name="cn.hotEvents.pojo"/>
+		<package name="cn.hotEvents.tools"/>
+	</typeAliases>
+	
+	
+</configuration>

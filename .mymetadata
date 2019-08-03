@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="hotEvents"
+  id="myeclipse.1563239719244"
+  context-root="/hotEvents"
+  j2ee-spec="5.0"
+  archive="hotEvents.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

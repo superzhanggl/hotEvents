@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.hotEvents.dao.hotEvent.HotEventsMapper">
+	<select id="getHotEventsList" resultType="hotEvents">
+		select*from hotevents 
+		<trim prefix="where" prefixOverrides="and |or">
+			<if test="keyWord != null and keyWord !=''">
+				and keyWord like CONCAT ('%',#{keyWord},'%')
+			</if>
+		</trim>
+	</select>
+	
+	<resultMap type="hotEvents" id="hotEventsMap">
+		<id column="id" property="id"/>
+		<result column="keyWord" property="keyWord"/>
+		<result column="hotContent" property="hotContent"/>
+		<result column="createDate" property="createDate"/>
+		<collection property="commentsList" ofType="comments">
+			
+			<result column="content" property="content"/>
+			<result column="commentDate" property="commentDate"/>
+		</collection>
+	</resultMap>
+	
+	
+	<select id="getHotEventsListById" resultMap="hotEventsMap">
+		SELECT h.*, c.content,c.commentDate FROM hotevents h
+		INNER JOIN comments c
+		ON c.hotEventsId=h.id
+		WHERE h.id=#{id}
+		ORDER BY c.commentDate DESC
+	</select>
+	
+	<!-- 搜索指数累计 -->
+	<update id="updateSearchByid">
+		 UPDATE  hotevents SET searchSum=searchSum+1 WHERE id=#{id}
+	</update>
+	
+	
+</mapper>
