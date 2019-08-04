@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-3.2.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+        
+        <!-- 配置处理器 HandlerMapper -->
+        <!-- 注解支持 -->
+        <mvc:annotation-driven/>
+       <!-- 配置扫描controller层,识别注解  -->
+       <context:component-scan base-package="cn.hotEvents.controller"/>  
+        
+         <!-- 配置视图映射器,使用的JSP视图，所以采用的类是 org.springframework.web.servlet.view.InternalResourceViewResolver-->
+       <!-- 设置页面跳转的前缀和后缀,controller中会设置逻辑路径,三者加起来就是一个完整的url
+       		/WEB-INF/jsp/+逻辑url+.jsp
+        -->
+	    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
+			<property name="prefix" value="/WEB-INF/jsp/"/>
+			<property name="suffix" value=".jsp"/>
+		</bean>
+		
+         <!-- 静态资源文件访问配置,否则前端是无法访问该静态文件的,
+   			 location表示静态文件存放的本地目录,mapping表示访问静态文件的路径,
+    	相当于告诉dispatcherServlet在mapping指向的路径不拦截 -->
+    	<mvc:resources mapping="/statics/**" location="/statics/" />
+    
+    	
+    	  <!-- 配置视图映射器,使用的JSP视图，所以采用的类是 org.springframework.web.servlet.view.InternalResourceViewResolver-->
+       <!-- 设置页面跳转的前缀和后缀,controller中会设置逻辑路径,三者加起来就是一个完整的url
+       		/WEB-INF/jsp/+逻辑url+.jsp
+        -->
+	    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
+			<property name="prefix" value="/WEB-INF/jsp/"/>
+			<property name="suffix" value=".jsp"/>
+		</bean>
+		
+		
+		<!-- 配置MultipartResolver，用于上传文件，使用spring的CommonsMultipartResolver -->  
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+   		 <property name="maxUploadSize" value="5000000"/>
+   		 <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+    
+    <!-- 配置json格式中文乱码问题和日期显示格式 -->
+    <mvc:annotation-driven>
+    	<mvc:message-converters>
+    		<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+    			<property name="supportedMediaTypes">
+    				<list>
+    					<value>application/json;charset=UTF-8</value>
+    				</list>
+    			</property>
+    		</bean> 
+    		<bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+    			<property name="supportedMediaTypes">
+    				<list>
+    					<value>text/html;charset=UTF-8</value>
+    					<value>application/json</value>
+    				</list>
+    			</property>
+    			<property name="features">
+    			<!-- 修改默认值,不配置就会使用默认值,使用后就变成使用fastJSON的日期输出格式 -->
+    				<list>
+    				   <!-- Date的日期转换器 -->
+    					<value>WriteDateUseDateFormat</value>
+    				</list>
+    			</property>
+    		</bean>
+    	</mvc:message-converters>
+    </mvc:annotation-driven>
+    
+    
+    <!--  全局异常处理,出现异常跳转到error页面 -->
+	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="java.lang.RuntimeException">error</prop>
+			</props>
+		</property>
+	</bean>
+    
+    
+        
+ </beans>
