@@ -1,4 +1,7 @@
 package cn.hotEvents.pojo;
+
+import java.util.List;
+
 /**
  * 
  * @author 张国粮
@@ -10,6 +13,11 @@ public class User {
 	private int userId;
 	private String password;
 	private int userCode;
+	
+	private List<City> cities;
+	
+	private City city;
+	
 	public String getUserName() {
 		return userName;
 	}
@@ -42,4 +50,12 @@ public class User {
 		this.userCode = userCode;
 	}
 	public User(){}
+	
+	public static void main(String[] args) {
+		User user=new User();
+		List<City> cities=user.cities;
+		for (City city : cities) {
+			System.out.println(city.toString());
+		}
+	}
 }
